@@ -1,4 +1,4 @@
-import 'package:flutter_app/dartSyntax.dart';
+import 'package:flutter_app/DartSyntax.dart';
 import 'package:meta/meta.dart';
 /**
  * 所谓顶级，就是在当前.dart文件以内，文件内的所有类以外。即不在任何一个类的包裹中。
