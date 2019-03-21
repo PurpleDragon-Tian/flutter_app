@@ -113,8 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
 */
 
 //导包，关键字import 后面的包路径通过单引号包裹住
-import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter/material.dart';
 
 //主方法
 void main() => runApp(new MyApp());
@@ -172,5 +172,4 @@ class MyStatefulWidgetState extends State<MyStatefulWidgetApp> {
       ),
     );
   }
-
 }

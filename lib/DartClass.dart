@@ -1,5 +1,3 @@
-import 'dart:math';
-
 /**
  * Dart是面向对象语言，所以也有类的概念，Dart类有如下特点:
  * 所有的类都是Object类的子类。
@@ -295,7 +293,7 @@ class ImplicitInterfaceImp implements ImplicitInterface {
 }
 
 /**
- * 验证隐式接口 
+ * 验证隐式接口
  */
 String loadData() {
   print(ImplicitInterface.One('dfd').loadData());
@@ -313,22 +311,20 @@ class Television {
     print('我是$name，我可以接收广播电视信号，播放节目');
   }
 
-  void testOverride(num test){
-
-  }
+  void testOverride(num test) {}
 }
 
 /**
  * 定义智能电视类，该类继承自电视类，并进行了特有的扩展。
- * 
+ *
  */
 class SmartTelevison extends Television {
   String name;
 
   @override
   int versionCode;
-  SmartTelevison(String name) : super(name){
-    this.name =name;
+  SmartTelevison(String name) : super(name) {
+    this.name = name;
   }
   @override
   void turnOn(String name) {
@@ -337,29 +333,131 @@ class SmartTelevison extends Television {
     print('我是${this.name},能通过接收网络数据来播放网络节目');
     print('我是${this.name},能通过接收usb数据来播放本地节目');
   }
-  
+
   /**
    * Dart中有中操作叫做'协作'
    * 在子类中可以覆盖父类方法的参数类型，也可以覆盖父类成员变量的类型，但必须是父类中对应类型的子类型。这个操作使用covariant关键字来处理。
    * 可以在子类真正覆盖时使用，也可以在父类实现方法或声明变量时使用，在父类中使用时，子类覆盖时就直接覆盖缩小方位即可。
-   * 
+   *
    * 该关键字操作适用与变量、get set方法、其他方法。
-   * 
+   *
    */
   @override
-  void testOverride( covariant int test){
-
-  }
+  void testOverride(covariant int test) {}
 }
+
 /**
  * 适用类的扩展
  */
 void useExtendingClass() {
-  Television television =Television("电视");
+  Television television = Television("电视");
   television.turnOn(television.name);
 
-  SmartTelevison smartTelevison =SmartTelevison("智能电视");
+  SmartTelevison smartTelevison = SmartTelevison("智能电视");
   smartTelevison.turnOn(smartTelevison.name);
+}
+
+class Vector {
+  final int x, y;
+
+  Vector(this.x, this.y);
+
+  Vector operator +(Vector v) {
+    Vector(x + v.x, y + v.y);
+  }
+
+  Vector operator -(Vector v) {
+    Vector(x - v.x, y - v.y);
+  }
+
+  // Operator == and hashCode not shown. For details, see note below.
+  // ···
+}
+
+/**
+ * 复写操作符,重新定义操作运算符的运算规则，
+ */
+void useOverrideOperator() {
+  final v = Vector(2, 3);
+  final w = Vector(2, 2);
+
+  assert(v + w == Vector(4, 5));
+  assert(v - w == Vector(0, 1));
+}
+
+class NoSuchMethodClass {
+  @override
+  noSuchMethod(Invocation invocation) {
+    // TODO: implement noSuchMethod
+    print(
+        "class ${this.runtimeType} does not have a method called ${invocation.memberName}");
+  }
+}
+
+void useNoSuchMethod() {
+  NoSuchMethodClass noSuchMethodClass = NoSuchMethodClass();
+  noSuchMethodClass.noSuchMethod(Invocation.getter(Symbol("name")));
+}
+
+/**
+ * 使用枚举类型
+ */
+void useEnumType() {
+  //测试枚举类型的某个值的索引
+  assert(EnumTypeClass.GRAY.index == 3);
+  //将枚举类中的值转换为List
+  List<EnumTypeClass> enumList = EnumTypeClass.values;
+  //循环输出enumList元素
+  EnumTypeClass enumTypeClass;
+  enumList.forEach((EnumTypeClass e) {
+    print(e);
+    enumTypeClass = e;
+  });
+}
+
+/**
+ * 定义枚举类
+ */
+enum EnumTypeClass { RED, GREEN, YELLOW, GRAY, PURPLE }
+
+/**
+ * 通过关键字mixin代替class定义mixin类，说明该类可被复用
+ * 通过关键字on限定哪些确定的类可以复用该mixin类的代码
+ */
+mixin Ability on PersonParent {
+  bool canPlayPiano = false;
+  bool canCompose = false;
+  bool canConduct = false;
+
+  void entertainMe() {
+    if (canPlayPiano) {
+      print('Playing piano');
+    } else if (canConduct) {
+      print('Waving hands');
+    } else {
+      print('Humming to self');
+    }
+  }
+}
+
+mixin SecondMixinClass {}
+
+class PersonParent {}
+
+/**
+ * 通过with关键字和面跟一个或者多个类名的形式来复用mixin类的代码
+ *
+ */
+class Person extends PersonParent with Ability, SecondMixinClass {
+  @override
+  void entertainMe() {}
+
+  void listYourAbilities() {}
+}
+
+void useMixInFeature() {
+  Person person = Person();
+  person.entertainMe();
 }
 
 void main() {
@@ -380,7 +478,33 @@ void main() {
   //隐式接口的使用
   // useImplicitInterface();
   //类的扩展的使用，
-  useExtendingClass();
+  // useExtendingClass();
+  //适用操作符复写
+  // useOverrideOperator();
+  //noSuchMethod方法
+  // useNoSuchMethod();
+  //枚举类型的适用
+  // useEnumType();
+  //mixin 的适用
+  // useMixInFeature();
+  //泛型
+  genericFeature();
 }
 
+void genericFeature() {}
 
+/**
+ * Dart中泛型可用于类、方法、变量的定义
+ * Java中的泛型使用擦除，这意味着在运行时删除泛型类型参数。在Java中，您可以测试对象是否为List，但无法测试它是否为List <String>，但在dart中是可以的
+ * 
+ */
+class Callback<T extends HttpResponse> {
+  /**
+   * 泛型列表
+   */
+  List<T> cacheResp = <T>[];
+  List<T> onSuccess(T successResp) {}
+  Map<String, T> onFailed(T successResp) {}
+}
+
+class HttpResponse {}
