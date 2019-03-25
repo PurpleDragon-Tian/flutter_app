@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
  * 定义metadata类FavorateMetadata，const构造函数
  */
 class FavorateMetadata {
-  const FavorateMetadata();                                                                                                                                                    
+  const FavorateMetadata();
 }
 
 /**
@@ -22,13 +22,13 @@ class Todo {
   const Todo(this.who, this.what);
 }
 
-const FavorateMetadata favorateMetadata =FavorateMetadata();
-
-
-
+/**
+ * 定义Metadata类型常量
+ */
+const FavorateMetadata favorateMetadata = FavorateMetadata();
 
 @favorateMetadata
-@Todo("","")
+@Todo("", "")
 @deprecated
 void doSomething(@required int rest) {
   // TODO:

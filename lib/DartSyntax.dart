@@ -1,7 +1,7 @@
-import 'package:flutter_app/DartMetadata.dart';
 import 'package:meta/meta.dart';
+
 /**
- * 所谓顶级，就是在当前.dart文件以内，文件内的所有类以外。即不在任何一个类的包裹中。
+ * 所谓顶级，就是在当前.dart文件以内，文件内的所有类以外。即不在任何一个类的范围内。
  * 顶级区域可以做的操作：
  * 1、定义变量。
  * 2、定义方法。
@@ -18,7 +18,7 @@ String nickName = "lily";
 int num;
 //  assert(null == num);
 
-//Final 和Const,二者都是定义常量的。都只能赋值一次。const变量是编译时常量，const变量也是final变量。顶级的final变量和类级别的final变量都是在第一次被调用的时候初始化。
+//Final 和Const,二者都是定义常量的。都只能赋值一次。const变量是编译时常量（即代码被编译的时候就已经进行了赋值操作），const变量也是final变量。顶级的final变量和类级别的final变量都是在第一次被调用的时候初始化。
 const a = 'test';
 final c = 5;
 //a = 'fdfdfd';,这个操作编译不通过。
@@ -39,16 +39,16 @@ void main() {
 //  handleList();
 //  handleSet();
 //  handleMap();
-  // handleRunesString();
+//  handleRunesString();
   // handleFunctions();
   handleOperators();
-  handleControlFlowStatement();
+//  handleControlFlowStatement();
 }
 
 /**
  * 控制流程语句
  */
-handleControlFlowStatement(){
+handleControlFlowStatement() {
   //dart中的流程控制语句如下：
   /**
    * if and else
@@ -59,9 +59,25 @@ handleControlFlowStatement(){
    * assert
    * 这些流程控制语句和java中一样，
    */
+  if (true) {
+  } else {}
+
+  while (true) {}
+
+  do {} while (true);
+
+  int optional;
+  switch (optional) {
+    case 4:
+      break;
+    case 5:
+      break;
+  }
+
+  assert(a == null);
 }
 
-void handleOperators(){
+void handleOperators() {
   //dart中大部分的操作符和Java中一样，只有一部分特有的运算符需要重点学习一下
   //?.是dart中特有的运算符，使用形式是express1?.express2; 表示如果express1不等于null，则返回express1，否则返回express2.
   //is 用于对象的类型判断，相当于java中的instance， is!与is相反。
@@ -70,15 +86,15 @@ void handleOperators(){
   // "??"是属于赋值运算符，形如express1??=express2; 表示express1是否等于null，如果是，则将express2赋值给express1,否则还保持原值。
 
   int a = 6;
+  int dd = 8;
   //一元后缀表达式,执行完当前语句后在进行一元运算，
-  print("${a++}");//打印6，然后给a+1=7
-  print("${a++}");//打印7， 然后给a+1=8
-  print("${a}");//打印8，然后给a+1=9
-  //一算运算还有 a--,赋值运算符(=)等， 
+  print("${a++}"); //打印6，然后给a+1=7
+  print("${a++}"); //打印7， 然后给a+1=8
+  print("${a}"); //打印8，然后给a+1=9
+  //一算运算还有 a--,赋值运算符(=)等，
 
-
+  a ??= dd;
 }
-
 
 void foo() {} // A top-level function
 
@@ -113,73 +129,84 @@ class A {
 //   assert(v.baz != w.baz);
 // }
 
-
 void handleFunctions() {
   //Dart是真正的面向对象语言，所以即使是函数也是对象，属于Function类型，可以被赋值给变量，可以作为参数传递给其他方法。
   //定义一个函数
-  var _nobleGases = {"atomNumber": null, "test": 2, 2:4};
+  var _nobleGases = {"atomNumber": null, "test": 2, 2: 4};
   //dart中函数的返回值类型是可省略的，
-  bool isNoble(int atomNumber){
-   return _nobleGases[atomNumber] != null;
+  bool isNoble(int atomNumber) {
+    return _nobleGases[atomNumber] != null;
   }
+
   //箭头语法,如果dart函数只有一句执行语句，则可以使用  "=>表达式" 的形式。
-   bool isString(String test) => _nobleGases["test"] !=null;
+  bool isString(String test) => _nobleGases["test"] != null;
 
 //dart中函数的参数有两种定义方式，一个是命名参数，另一个是位置参数，在定义一个方法时，她的参数只能是命名参数和位置参数中的一种，不能两种类型声明都有。
 
 //命名参数，和java定义方法声明参数一样。但调用时不一样，
 //声明方法enableFlags，@require是注解语句，代表child参数是必填参数, @require注解在dart的meta包中，或者flutter 的material.dart
-void enableFlags({bool bold,  bool hidden, @required String child}) {}
+  void enableFlags({bool bold, bool hidden, @required String child}) {}
 //调用,调用的时候要通过"paramName:value"的形式传参，
-enableFlags(bold: false, hidden: true, child: "dfadfa");
+  enableFlags(bold: false, hidden: true, child: "dfadfa");
 
 //位置参数，只能是最后一个位置的参数，用中括号包裹[paramName value],
 //声明
-void say(String name, String msg, [String device = "小米"]){
-  print('$name, $msg 你用的手机是$device');
-}
+  void say(String name, String msg, [String device = "小米"]) {
+    print('$name, $msg 你用的手机是$device');
+  }
+
 //调用
-say("bob", "hello","dfafdad");
+  say("bob", "hello", "dfafdad");
 //定义方法的时候可以指定参数的默认值，默认值必须是编译时常量，或者编译时常量表达式，final常量都不行。含变量的表达式也不行
 //命名参数指定默认值则用"{}"包裹起来，
-const ag = 3;
-const ddddd= 3;
-final dfadfasdf = 3232;
-defalutValue({bool flag =true, bool lib =false, int value = ddddd * 3 * 3}){}
+  const ag = 3;
+  const ddddd = 3;
+  final dfadfasdf = 3232;
+  defalutValue(
+      {bool flag = true, bool lib = false, int value = ddddd * 3 * 3}) {}
 //指定位置参数的默认值，位置参数指定默认值是[type paramName = value]
-defalutPosValue([String test= "dfsfa"]){}
+  defalutPosValue([String test = "dfsfa"]) {}
 //指定默认值的时候还可以直接指定一个集合类型的const常量
-defaultListValue({List<String> devices = const ["oppo", "vivo" , "huawei", "xiaomi", "lg"]}){}
+  defaultListValue(
+      {List<String> devices = const [
+        "oppo",
+        "vivo",
+        "huawei",
+        "xiaomi",
+        "lg"
+      ]}) {}
 
 //在dart中函数也可以当做其他函数的参数来传递
-void printElement(int num){
-  print(num);
-}
+  void printElement(int num) {
+    print(num);
+  }
 
-var numList  = [2,43,5,6756,7565];
-numList.forEach(printElement);
+  var numList = [2, 43, 5, 6756, 7565];
+  numList.forEach(printElement);
 //可以把一个函数赋值给一个变量,变量值是一个匿名函数，不要返回值和函数名称，只要参数声明和方法体
-var func =  (int name ){
-print(name);
-};
-func (4344);
+  var func = (int name) {
+    print(name);
+  };
+  func(4344);
 
 //闭包，就是在方法中定义的方法，闭包可以访问外部方法的局部变量，
 //操作步骤1.定义外部方法，声明局部变量；2、在外部方法中实现内部方法，即闭包；3将闭包暴露出来，就是return 闭包;
 
-Function add2 =makeAdd();
-Function add3 =makeAdd();
+  Function add2 = makeAdd();
+  Function add3 = makeAdd();
 
-print(add2(4));
-print(add3(4));
+  print(add2(4));
+  print(add3(4));
 // assert(add2(4) == 10);
 // assert(add3(4) != 10);
 //dart中任何一个函数都有返回值，如果没有显示指定返回值，则默认返回null，链接器器会自动加上
-
 }
-Function makeAdd(){
+
+Function makeAdd() {
   int add = 0;
-  return () { print(add++); };
+  return () {
+    print(add++);
+  };
 }
 
 void handleRunesString() {
@@ -187,17 +214,14 @@ void handleRunesString() {
   //(♥) = \u2665,如果十六进制数字多余或者少于4位，则应该用大括号括起来 “\u{XXX}” 或者 "\u{XXXX......}"
   //(String)[https://api.dartlang.org/stable/2.2.0/dart-core/String-class.html]中有一些方法可以提取runes字符串。
   //打印出字符串中每个字符在相应字符集中的编码
-  print("(♥)😆d".codeUnits);//UTF-16中的编码，[40, 9829, 41, 55357, 56838, 100]
-  print("(♥)😆d".runes);//UTF-32中的编码，(40, 9829, 41, 128518, 100)
-  
-  print("\u4B5A");//䭚
-  print("\u{1f600}");//😆
-  Runes input = new Runes(
-      '\u2665  \u{1f605}  \u{1f60e}  ');
+  print("(♥)😆d".codeUnits); //UTF-16中的编码，[40, 9829, 41, 55357, 56838, 100]
+  print("(♥)😆d".runes); //UTF-32中的编码，(40, 9829, 41, 128518, 100)
+
+  print("\u4B5A"); //䭚
+  print("\u{1f600}"); //😆
+  Runes input = new Runes('\u2665  \u{1f605}  \u{1f60e}  ');
   print(new String.fromCharCodes(input));
-
 }
-
 
 /**
   Map是键值对<Key,Value>形式的数据集合：
@@ -208,26 +232,24 @@ void handleRunesString() {
 
 void handleMap() {
   //定义Map集合,集合中的没对key  value的类型都要相应一致，即key的类型一样，value的类型一样
-  var stringMapData = {//直接赋值定义map
-    "name":"bob",
-    "sex":"女",
-    "positon":"CEO"
+  var stringMapData = {
+    //直接赋值定义map
+    "name": "bob",
+    "sex": "女",
+    "positon": "CEO"
   };
 //  stringMapData["dd"] = 2; 非法的
-  var numMapData = Map();//先使用构造方法实例化，然后赋值
-  numMapData[2]=3;
-  numMapData[3]=65;
-  numMapData[0]=34;
-  numMapData[1]=0;
+  var numMapData = Map(); //先使用构造方法实例化，然后赋值
+  numMapData[2] = 3;
+  numMapData[3] = 65;
+  numMapData[0] = 34;
+  numMapData[1] = 0;
 
-  var wrongMapData = {
-    2:3,
-    "test":"wrong"
-  };
-  wrongMapData["df"] = "fd";//合法的
-  wrongMapData["df"] = 77;//合法的
-  wrongMapData[9] = "fd";//合法的
-  wrongMapData[9] = 88;//合法的
+  var wrongMapData = {2: 3, "test": "wrong"};
+  wrongMapData["df"] = "fd"; //合法的
+  wrongMapData["df"] = 77; //合法的
+  wrongMapData[9] = "fd"; //合法的
+  wrongMapData[9] = 88; //合法的
 
   //构造方法的使用,"="后面的关键字new从Dart2开始是可选的，
   var newMap = new Map();
@@ -239,14 +261,9 @@ void handleMap() {
   int mapLen = newMap.length;
 
   //创建Map类型的const常量
-  final constMap = const {
-    "key":"value",
-    "one":"two",
-    2:3
-  };
+  final constMap = const {"key": "value", "one": "two", 2: 3};
   //constMap["fd"]="dfd";//编译可通过，但执行会报错
   print(constMap);
-
 }
 
 void handleSet() {

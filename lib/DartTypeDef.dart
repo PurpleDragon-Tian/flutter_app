@@ -4,9 +4,6 @@
  */
 
 //基本定义方式，typedef 别名 = 函数;
-typedef  Comppare<T> = T Function(T a, T b);
-//简化定义方式 typedef 函数返回值类型别名(函数所需参数);
+typedef Comppare<T> = T Function(T a, T b);
+//简化定义方式 typedef 函数返回值类型 别名(函数所需参数);
 typedef T Comparee<T>(T a, T b);
-
-
-
